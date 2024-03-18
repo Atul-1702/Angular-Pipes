@@ -1,0 +1,70 @@
+<div class="record-container">
+  <div class="record">
+    <div class="heading-part">
+      <div class="title">Student Management</div>
+      <select class="heading-part-options" name="gender" [(ngModel)]="filterBy">
+        <option value="All">All</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <hr/>
+    <div class="table-part">
+      <table border>
+        <tr>
+          <th class="icon-adjust">ID</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Date of Birth</th>
+          <th>Course</th>
+          <th>Marks</th>
+          <th>Percentage</th>
+          <th>Fees</th>
+          <th class="icon-adjust"></th>
+          <th class="icon-adjust"><fa-icon (click)="onPlusIconClicked();onCancelIconClicked()" [style.cursor]="'pointer'" [icon]="plus"></fa-icon></th>
+        </tr>
+        <tr *ngIf="plus_status">
+          <td class="icon-adjust"></td>
+          <td><input type="text" placeholder="Name" #name></td>
+          <td><select name="gender" class="save-gender" #gender>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select></td>
+          <td><input type="date" placeholder="Date of Birth" #dob></td>
+          <td><input type="text" placeholder="Course" #course></td>
+          <td><input type="text" placeholder="Marks" #marks></td>
+          <td></td>
+          <td><input type="text" placeholder="Fees" #fees></td>
+          <td class="icon-adjust"><fa-icon (click)="onNewEntryIconClicked()" class="save-icon" [icon]="save"></fa-icon></td>
+          <td class="icon-adjust"><fa-icon (click)="onCancelnewRecord()" class="delete-icon" [icon]="cancel"></fa-icon></td>
+        </tr>
+        <tr *ngFor="let student of studentRecord|filter:filterBy let i=index">
+          <td class="icon-adjust">{{ student.id }}</td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.name|Titlecase }}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.name" #name></td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.gender }}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.gender" #gender></td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.dob|date:'longDate' }}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.dob|date:'longDate'" #dob></td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.course|upper}}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.course" #course></td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.marks|decimal:0:2}}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.marks" #marks></td>
+          <td  >{{ (student.marks/student.totalMarks)|percent:'1.2-2'}}</td>
+          <td *ngIf="!(i==selectedStudent)">{{ student.fees|currency:'INR'}}</td>
+          <td *ngIf="(i==selectedStudent)"><input type="text" [value]="student.fees" #fees></td>
+          <td *ngIf="!(i==selectedStudent)" class="icon-adjust"><fa-icon *ngIf="!plus_status" class="edit-icon" (click)="onEditIconClicked(i)" [icon]="edit"></fa-icon></td>
+          <td *ngIf="(i==selectedStudent)" class="icon-adjust"><fa-icon class="save-icon" (click)="onSaveIconClicked(i)" [icon]="save"></fa-icon></td>
+          <td *ngIf="!(i==selectedStudent)" class="icon-adjust"><fa-icon class="delete-icon" [icon]="delete"></fa-icon></td>
+          <td *ngIf="(i==selectedStudent)" class="icon-adjust"><fa-icon (click)="onCancelIconClicked()" class="delete-icon" [icon]="cancel"></fa-icon></td>
+        </tr>
+      </table>
+    </div>
+    <hr />
+    <div class="bottom-container">
+      <div class="bottom-text">
+        All rights reserved by procademy.@Copyright 2023.
+      </div>
+    </div>
+  </div>
+</div>
